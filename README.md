@@ -12,3 +12,4 @@ The project consists of the following two important classes:
  For the sake of user experience, the renderer will limit scaling to a defined limit. The renderer
  will also prevent the image from moving out of the screen boundaries.
  
+![alt text](images/ios.gif "Screen recording")
