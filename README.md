@@ -7,7 +7,7 @@ The project consists of the following two important classes:
 - **PanZoomView:** A simple helper class which extends from `Image`
 - **PanZoomImageRenderer:**  Platform specific exported renderer which contains all logic for the image
 
- For Android the native `Canvas` is being used. For iOS the native `UImageView` is used.
+ For Android the native `Canvas` is being used. For iOS the native `UIImageView` is used.
  
  For the sake of user experience, the renderer will limit scaling to a defined limit. The renderer
  will also prevent the image from moving out of the screen boundaries.
