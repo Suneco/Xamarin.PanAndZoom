@@ -4,7 +4,8 @@ can be panned and zoomed with. The custom view is implemented using the platform
 
 The project consists of the following two important classes:
 
-- **PanZoomView:** A simple helper class which extends from `Image`
+- **PanZoomView:** A simple helper class which extends from `Image`, which contains one bindable
+property `MaxZoomLevel`
 - **PanZoomImageRenderer:**  Platform specific exported renderer which contains all logic for the image
 
  For Android the native `Canvas` is being used. For iOS the native `UIImageView` is used.

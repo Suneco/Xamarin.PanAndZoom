@@ -6,10 +6,13 @@
 
     <StackLayout VerticalOptions="FillAndExpand" 
                  HorizontalOptions="FillAndExpand">
+
         <local:PanZoomView 
             Source="{local:ImageResource PanAndZoom.suneco.jpg}"
+            MaxZoomLevel="2"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"/>
+
     </StackLayout>
 
 </ContentPage>

@@ -13,9 +13,9 @@ namespace PanAndZoom.Droid
     public sealed class PanZoomImageRenderer : ImageRenderer
     {
         private const int InvalidPointerId = -1;
-
-        private const float MaxZoomLevel = 5.0f;
         private const float MinZoomLevel = 1.0f;
+
+        private float _maxZoomLevel;
 
         private float _posX;
         private float _posY;
@@ -37,6 +37,17 @@ namespace PanAndZoom.Droid
             _scaleDetector = new ScaleGestureDetector(context, new ScaleListener(this));
 
             SetWillNotDraw(false);
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<Image> e)
+        {
+            if (e.NewElement != null)
+            {
+                var control = (PanZoomView)e.NewElement;
+                _maxZoomLevel = control.MaxZoomLevel;
+            }
+
+            base.OnElementChanged(e);
         }
 
         public override bool OnTouchEvent(MotionEvent e)
@@ -161,7 +172,7 @@ namespace PanAndZoom.Droid
                 _parent._scaleFactor *= detector.ScaleFactor;
 
                 // Don't let the object get too small or too large.
-                _parent._scaleFactor = Math.Max(MinZoomLevel, Math.Min(_parent._scaleFactor, MaxZoomLevel));
+                _parent._scaleFactor = Math.Max(MinZoomLevel, Math.Min(_parent._scaleFactor, _parent._maxZoomLevel));
 
                 _parent.Invalidate();
                 return true;

@@ -14,20 +14,29 @@ namespace PanAndZoom.iOS
 {
     public class PanZoomImageRenderer : ImageRenderer, IUIGestureRecognizerDelegate
     {
-        private const float MaxZoomLevel = 10.0f;
         private const float MinZoomLevel = 1.0f;
 
-        private UIPinchGestureRecognizer _pinchRecognizer;
-        private UIPanGestureRecognizer _panRecognizer;
-
+        private float _maxZoomLevel;
         private nfloat _currentScale = 1;
 
+        private CGPoint _lastPoint;
         private nfloat _posX;
         private nfloat _posY;
 
         public PanZoomImageRenderer()
         {
             SetupGestures();
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<Image> e)
+        {
+            if (e.NewElement != null)
+            {
+                var control = (PanZoomView)e.NewElement;
+                _maxZoomLevel = control.MaxZoomLevel;
+            }
+
+            base.OnElementChanged(e);
         }
 
         protected override Task TrySetImage(Image previous = null)
@@ -44,14 +53,14 @@ namespace PanAndZoom.iOS
         {
             UserInteractionEnabled = true;
 
-            _pinchRecognizer = new UIPinchGestureRecognizer(HandlePinch);
-            _panRecognizer = new UIPanGestureRecognizer(HandlePan);
+            var pinchRecognizer = new UIPinchGestureRecognizer(HandlePinch);
+            var panRecognizer = new UIPanGestureRecognizer(HandlePan);
 
-            _pinchRecognizer.Delegate = this;
-            _panRecognizer.Delegate = this;
+            pinchRecognizer.Delegate = this;
+            panRecognizer.Delegate = this;
 
-            AddGestureRecognizer(_pinchRecognizer);
-            AddGestureRecognizer(_panRecognizer);
+            AddGestureRecognizer(pinchRecognizer);
+            AddGestureRecognizer(panRecognizer);
 
             ContentMode = UIViewContentMode.ScaleAspectFit;
         }
@@ -59,7 +68,7 @@ namespace PanAndZoom.iOS
         private void HandlePinch(UIPinchGestureRecognizer recognizer)
         {
             // Prevent the object to become too large or too small
-            var newScale = (nfloat)Math.Max(MinZoomLevel, Math.Min(_currentScale * recognizer.Scale, MaxZoomLevel));
+            var newScale = (nfloat)Math.Max(MinZoomLevel, Math.Min(_currentScale * recognizer.Scale, _maxZoomLevel));
 
             if (_currentScale != newScale)
             {

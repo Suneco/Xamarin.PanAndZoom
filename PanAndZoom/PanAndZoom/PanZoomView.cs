@@ -1,4 +1,6 @@
-﻿using Image = Xamarin.Forms.Image;
+﻿using System.Collections.ObjectModel;
+using Xamarin.Forms;
+using Image = Xamarin.Forms.Image;
 
 namespace PanAndZoom
 {
@@ -9,6 +11,15 @@ namespace PanAndZoom
     /// </summary>
     public class PanZoomView : Image
     {
+        public static readonly BindableProperty MaxZoomLevelProperty = BindableProperty.Create(nameof(MaxZoomLevel), typeof(float), typeof(PanZoomView), 10.0f);
 
+        /// <summary>
+        /// Defines the maximum zoom level for the image
+        /// </summary>
+        public float MaxZoomLevel
+        {
+            get => (float)GetValue(MaxZoomLevelProperty);
+            set => SetValue(MaxZoomLevelProperty, value);
+        }
     }
 }
