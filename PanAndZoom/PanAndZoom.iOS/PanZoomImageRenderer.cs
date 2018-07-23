@@ -19,7 +19,6 @@ namespace PanAndZoom.iOS
         private float _maxZoomLevel;
         private nfloat _currentScale = 1;
 
-        private CGPoint _lastPoint;
         private nfloat _posX;
         private nfloat _posY;
 
